@@ -1,0 +1,58 @@
+plugins {
+	id 'org.springframework.boot' version '2.4.6'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id "eclipse-wtp"
+	id 'java'
+	id 'war'
+}
+
+
+repositories {
+	mavenCentral()
+}
+subprojects {
+	
+	bootJar {
+		enabled = false
+	}
+	
+	jar {
+		enabled = true
+	}
+	
+}
+allprojects{
+		group = 'com.wwm'
+		version = '1.0'
+		sourceCompatibility = '1.8'
+}
+
+if (project.hasProperty('profile')) {
+	sourceSets {
+		main {
+			resources {
+				srcDirs "src/main/resources", "src/main/resources-${profile}"
+			}
+		}
+	}
+}
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security:spring-security-test'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
+	implementation 'org.springframework.boot:spring-boot-starter-tomcat'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	compile('org.apache.tomcat.embed:tomcat-embed-jasper')
+	compile('javax.servlet:jstl:1.2')
+
+}
+
+test {
+	useJUnitPlatform()
+}
